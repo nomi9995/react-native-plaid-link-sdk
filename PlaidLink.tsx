@@ -14,7 +14,7 @@ import {
  *
  * @param onEventListener the listener to call
  */
-export const usePlaidEmitter = (onEventListener) => {
+export const usePlaidEmitter = (onEventListener : any) => {
   useEffect(() => {
     const emitter = new NativeEventEmitter(
       Platform.OS === 'ios'
@@ -29,16 +29,16 @@ export const usePlaidEmitter = (onEventListener) => {
   }, []);
 };
 
-export const openLink = async ({ onExit, onSuccess, ...serializable }) => {
+export const openLink = async ({ onExit, onSuccess, ...serializable }: any) => {
   if (Platform.OS === 'android') {
     NativeModules.PlaidAndroid.startLinkActivityForResult(
       JSON.stringify(serializable),
-      (result) => {
+      (result : any) => {
         if (onSuccess != null) {
           onSuccess(result.data);
         }
       },
-      (result) => {
+      (result: any) => {
         if (onExit != null) {
           onExit(result.data);
         }
@@ -46,7 +46,7 @@ export const openLink = async ({ onExit, onSuccess, ...serializable }) => {
     );
   } else {
     NativeModules.RNLinksdk.create(serializable);
-    NativeModules.RNLinksdk.open((error, metadata) => {
+    NativeModules.RNLinksdk.open((error: any, metadata: any) => {
       if (error) {
         if (onExit != null) {
           var data = metadata || {};
@@ -79,17 +79,17 @@ export const dismissLink = () => {
   }
 };
 
-const handlePress = (linkProps, componentProps) => {
+const handlePress = (linkProps: any, componentProps: any) => {
   openLink(linkProps);
   if (componentProps && componentProps.onPress) {
     componentProps.onPress();
   }
 };
 
-const useMount = (func) => useEffect(() => func(), []);
+const useMount = (func: any) => useEffect(() => func(), []);
 
 export const useDeepLinkRedirector = () => {
-  const _handleListenerChange = (event) => {
+  const _handleListenerChange = (event: any) => {
     if (event.url !== null && Platform.OS === 'ios') {
       NativeModules.RNLinksdk.continueFromRedirectUriString(event.url);
     }
@@ -109,7 +109,7 @@ export const PlaidLink = ({
   componentProps,
   children,
   ...linkProps
-}) => {
+} : any) => {
   const Component = component;
   return (
     <Component
@@ -136,7 +136,7 @@ PlaidLink.propTypes = {
   //
   // [DEPRECATED] - instead, pass a Link token into the token field.
   // Create a Link token with the /link/token/create endpoint.
-  publicKey: (props) => {
+  publicKey: (props: any) => {
     if (!props.publicKey && !props.token) {
       return new Error(`One of props 'publicKey' or 'token' is required`);
     }
@@ -219,7 +219,7 @@ PlaidLink.propTypes = {
   // An oauthRedirectUri is required to support OAuth authentication flows when
   // launching or re-launching Link within a WebView and using one or more
   // European country codes.
-  oauthRedirectUri: function (props, propName) {
+  oauthRedirectUri: function (props: any, propName: any) {
     let value = props[propName];
     if (value === undefined || value === null) {
       return;
