@@ -7,6 +7,7 @@ import {
   Platform,
   TouchableOpacity,
 } from 'react-native';
+import { OnEventListener } from './react-native-plaid-link-sdk';
 
 /**
  * A hook that registers a listener on the plaid emitter for the 'onEvent' type.
@@ -14,7 +15,7 @@ import {
  *
  * @param onEventListener the listener to call
  */
-export const usePlaidEmitter = (onEventListener : any) => {
+export const usePlaidEmitter = (onEventListener : OnEventListener) => {
   useEffect(() => {
     const emitter = new NativeEventEmitter(
       Platform.OS === 'ios'

@@ -1,5 +1,6 @@
 import React from 'react';
 import { TouchableOpacity, TouchableOpacityProps } from 'react-native';
+import PropTypes from 'prop-types';
 
 export interface Account {
   id: string;
@@ -102,30 +103,29 @@ export type Product =
 
 declare module 'react-native-plaid-link-sdk' {
   export interface PlaidLinkProps<
-    C = TouchableOpacity,
-    P = TouchableOpacityProps
+    C = PropTypes.ReactComponentLike,
+    P = object
   > {
     // Required props
-
-    // Displayed once a user has successfully linked their account
-    clientName: string;
-
-    // The Plaid API environment on which to create user accounts.
-    env: 'development' | 'sandbox' | 'production';
-
     // A function that is called when a user has successfully onboarded their account.
     // The function should expect one argument, a metadata object.
     onSuccess: (metadata: OnSuccessMetadata) => void;
 
+    // Optional props
+
+    // The Plaid API environment on which to create user accounts.
+    env?: 'development' | 'sandbox' | 'production';
+
+    // Displayed once a user has successfully linked their account
+    clientName?: string;
+
     // The Plaid product(s) you wish to use, an array containing some of
     // auth, identity, income, transactions, assets, liabilities, investments.
-    product: Array<Product>;
+    product?: Array<Product>;
 
     // The public_key associated with your account; available from
     // the Plaid dashboard (https://dashboard.plaid.com).
-    publicKey: string;
-
-    // Optional props
+    publicKey?: string;
 
     // A list of Plaid-supported country codes using the ISO-3166-1 alpha-2
     // country code standard.
@@ -172,7 +172,7 @@ declare module 'react-native-plaid-link-sdk' {
 
     // An oauthStateId is required to support OAuth authentication and payment flows when
     // re-launching Link within a WebView and using one or more European country
-    // codes.
+    // codes.f
     oauthStateId?: string;
 
     // Underlying component to render
@@ -183,17 +183,22 @@ declare module 'react-native-plaid-link-sdk' {
 
     // Note: onEvent is omitted here, to handle onEvent callbacks refer to
     // the documentation here: https://github.com/plaid/react-native-plaid-link-sdk#to-receive-onevent-callbacks
+
+    webviewRedirectUri?: string;
   }
 
   const PlaidLink: (
     props: PlaidLinkProps & { children: React.ReactNode },
   ) => JSX.Element;
+}
+
   export default PlaidLink;
 
-  interface OpenLinkProps {
-    publicKey: string;
-    onSuccess?: (metadata: OnSuccessMetadata) => void | null;
-    onExit?: (metadata: OnExitMetadata) => void | null;
-  }
-  export function openLink(props: OpenLinkProps): Promise<void>;
+interface OpenLinkProps {
+  publicKey: string;
+  onSuccess?: (metadata: OnSuccessMetadata) => void | null;
+  onExit?: (metadata: OnExitMetadata) => void | null;
 }
+export function openLink(props: OpenLinkProps): Promise<void>;
+
+export type OnEventListener = (e: OnEventArgs) => void
