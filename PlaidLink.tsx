@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FunctionComponent } from 'react';
 import {
   Linking,
@@ -108,8 +108,13 @@ export const useDeepLinkRedirector = (listener: LinkingEventListener) => {
 };
 
 export const PlaidLink : React.FunctionComponent<PlaidLinkComponentProps> = (props: PlaidLinkComponentProps) => {
-  useDeepLinkRedirector(_handleListenerChange);
-  return <Pressable onPress={() => openLink(props)}>{props.children}</Pressable>;
+  //useDeepLinkRedirector(_handleListenerChange);
+  const [a,b] = useState(false)
+  return <Pressable onPress={() => {
+    b(!a)
+    openLink(props)
+  }
+  }>{props.children}</Pressable>;
 };
 
 type LinkingEventListener = (event: { url: string }) => void
