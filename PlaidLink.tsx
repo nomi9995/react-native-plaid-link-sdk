@@ -91,33 +91,30 @@ export const dismissLink = () => {
   }
 };
 
-const _handleListenerChange = (event: { url: string }) => {
-  if (event.url !== null && Platform.OS === 'ios') {
-    NativeModules.RNLinksdk.continueFromRedirectUriString(event.url);
-  }
-};
 
-export const useDeepLinkRedirector = (listener: LinkingEventListener) => {
+const useDeepLinkRedirectorInternal = () => {
+  const _handleListenerChange = (event: { url: string }) => {
+    if (event.url !== null && Platform.OS === 'ios') {
+      NativeModules.RNLinksdk.continueFromRedirectUriString(event.url);
+    }
+  };
+
   useEffect(() => {
-    Linking.addEventListener('url', listener);
+    Linking.addEventListener('url', _handleListenerChange);
 
     return () => {
-      Linking.removeEventListener('url', listener);
+      Linking.removeEventListener('url', _handleListenerChange);
     };
   });
 };
 
-export const PlaidLink : React.FunctionComponent<PlaidLinkComponentProps> = (props: PlaidLinkComponentProps) => {
-  //useDeepLinkRedirector(_handleListenerChange);
-  const [a,b] = useState(false)
-  return <Pressable onPress={() => {
-    b(!a)
-    openLink(props)
-  }
-  }>{props.children}</Pressable>;
-};
+export const useDeepLinkRedirector = useDeepLinkRedirectorInternal
 
-type LinkingEventListener = (event: { url: string }) => void
+export const PlaidLink : React.FunctionComponent<PlaidLinkComponentProps> = (props: PlaidLinkComponentProps) => {
+  useDeepLinkRedirectorInternal();
+  const [a,b] = useState(false)
+  return <Pressable onPress={() => {openLink(props)}}>{props.children}</Pressable>;
+};
 
 /*
 FunctionalComonent<PlaidLinkComponentProps>
