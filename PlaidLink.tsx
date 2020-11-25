@@ -91,7 +91,7 @@ export const dismissLink = () => {
   }
 };
 
-export const useDeepLinkRedirector = () => {
+export const useDeepLinkRedirector : React.FunctionComponent<any> = () => {
   const _handleListenerChange = (event: { url: string }) => {
     if (event.url !== null && Platform.OS === 'ios') {
       NativeModules.RNLinksdk.continueFromRedirectUriString(event.url);
@@ -105,12 +105,16 @@ export const useDeepLinkRedirector = () => {
       Linking.removeEventListener('url', _handleListenerChange);
     };
   }, []);
+  return (
+    <div />
+)
 };
 
-export const PlaidLink : FunctionComponent<PlaidLinkComponentProps> = (props: PlaidLinkComponentProps) => {
-  useDeepLinkRedirector();
+export const PlaidLink : React.FunctionComponent<PlaidLinkComponentProps> = (props: PlaidLinkComponentProps) => {
+  useDeepLinkRedirector(null);
   return <Pressable onPress={() => openLink(props)}>{props.children}</Pressable>;
 };
+
 
 
 /*
