@@ -110,11 +110,11 @@ export const useDeepLinkRedirector = (listener: LinkingEventListener) => {
 export function PlaidLink(props: PlaidLinkComponentProps) {
   //useDeepLinkRedirector(_handleListenerChange);
   const [a,b] = useState(false)
-  return <Pressable onPress={() => {
+  return (<Pressable onPress={() => {
     b(!a)
     openLink(props)
   }
-  }>{props.children}</Pressable>;
+  }>{props.children}</Pressable>);
 };
 
 type LinkingEventListener = (event: { url: string }) => void
