@@ -97,22 +97,22 @@ const _handleListenerChange = (event: { url: string }) => {
   }
 };
 
-export const useDeepLinkRedirector = () => {
+export const useDeepLinkRedirector = (listener: LinkingEventListener) => {
   useEffect(() => {
-    Linking.addEventListener('url', _handleListenerChange);
+    Linking.addEventListener('url', listener);
 
     return () => {
-      Linking.removeEventListener('url', _handleListenerChange);
+      Linking.removeEventListener('url', listener);
     };
   });
 };
 
 export const PlaidLink : React.FunctionComponent<PlaidLinkComponentProps> = (props: PlaidLinkComponentProps) => {
-  useDeepLinkRedirector();
+  useDeepLinkRedirector(_handleListenerChange);
   return <Pressable onPress={() => openLink(props)}>{props.children}</Pressable>;
 };
 
-
+type LinkingEventListener = (event: { url: string }) => void
 
 /*
 FunctionalComonent<PlaidLinkComponentProps>
