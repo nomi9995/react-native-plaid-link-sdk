@@ -112,7 +112,7 @@ export const PlaidLink : React.FunctionComponent<PlaidLinkComponentProps> = (pro
   return <Pressable onPress={() => openLink(props)}>{props.children}</Pressable>;
 };
 
-type LinkingEventListener = (event: { url: string }) => void
+export type LinkingEventListener = (event: { url: string }) => void
 
 /*
 FunctionalComonent<PlaidLinkComponentProps>
