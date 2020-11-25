@@ -107,7 +107,7 @@ export const useDeepLinkRedirector = (listener: LinkingEventListener) => {
   });
 };
 
-export function PlaidLink(props: PlaidLinkComponentProps) {
+export function PlaidLink(props: PlaidLinkComponentProps): React.ReactNode {
   //useDeepLinkRedirector(_handleListenerChange);
   const [a,b] = useState(false)
   return (<Pressable onPress={() => {
