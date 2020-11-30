@@ -11,7 +11,6 @@ import {
   LinkEventListener,
   LinkExit,
   LinkSuccess,
-  PlaidLinkComponentProps,
   PlaidLinkProps,
 } from './Types';
 
@@ -104,9 +103,4 @@ export const useDeepLinkRedirector = () => {
       Linking.removeEventListener('url', _handleListenerChange);
     };
   }, []);
-};
-
-export const PlaidLink : React.ReactNode = (props: PlaidLinkComponentProps) => {
-  useDeepLinkRedirector();
-  return <Pressable onPress={() => openLink(props)}>{props.children}</Pressable>;
 };

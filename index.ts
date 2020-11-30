@@ -3,8 +3,11 @@ import {
     dismissLink,
     useDeepLinkRedirector,
     usePlaidEmitter,
-    PlaidLink,
 } from './PlaidLink';
+
+import {
+    PlaidLink,
+} from './PlaidLinkComponent'
 
 export * from './Types';
 
